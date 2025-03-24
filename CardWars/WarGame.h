@@ -8,7 +8,7 @@ class WarGame
 
 public:
 	WarGame(std::string cardsFile);
-	
+	 
 
 
 private:

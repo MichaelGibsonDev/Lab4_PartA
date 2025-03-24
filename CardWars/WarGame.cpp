@@ -12,7 +12,7 @@ std::vector<Card> WarGame::_cards;
 WarGame::WarGame(std::string cardsFile)
 {
     LoadCards(cardsFile);
-}
+} 
 
 void WarGame::shuffle()
 {
