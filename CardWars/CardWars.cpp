@@ -3,6 +3,7 @@
 #include "Input.h"
 #include "WarGame.h"
 #include "Tester.h"
+#include "HighScore.h"
 
 void PrintIntro();
 
@@ -15,6 +16,11 @@ int main()
     std::vector<std::string> menuOptions{ "1. Show Cards", "2. Show High Scores", "3. Play Card Wars", "4. Exit" };
     std::string highScoreFile = "HighScores.csv";
     std::string cardsFile = "cards.csv";
+
+    std::vector<HighScore> highScores;
+    highScores.push_back(HighScore("Eddie", 100));
+    highScores.push_back(HighScore("Mike", 200));
+    highScores.push_back(HighScore("Roman", 150));
 
     WarGame war(cardsFile);
 
@@ -39,6 +45,11 @@ int main()
         }
         case 2:
         {
+            std::cout << "High Scores:" << std::endl;
+            for (const auto& score : highScores)
+            {
+                std::cout << score.getName() << " - " << score.getScore() << std::endl;
+            }
             break;
         }
         case 3:
