@@ -34,7 +34,7 @@ int main()
         {
         case 1:
         {
-             
+            war.ShowCards();
             break;
         }
         case 2:

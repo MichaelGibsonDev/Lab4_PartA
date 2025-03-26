@@ -5,6 +5,7 @@
 #include <sstream>
 #include <iomanip>
 #include "Input.h"
+#include "Card.h"
 
 
 std::vector<Card> WarGame::_cards;
@@ -12,7 +13,7 @@ std::vector<Card> WarGame::_cards;
 WarGame::WarGame(std::string cardsFile)
 {
     LoadCards(cardsFile);
-} 
+}
 
 void WarGame::shuffle()
 {
@@ -30,25 +31,30 @@ void WarGame::shuffle()
     }
 }
 
-    void WarGame::LoadCards(const std::string & cardsFile) {
-        std::ifstream file(cardsFile);
+void WarGame::LoadCards(const std::string& cardsFile) {
+    std::ifstream file(cardsFile);
 
-        if (!file) {
-            std::cerr << "Error opening file: " << cardsFile << std::endl;
-            return;
-        }
+    if (!file) {
+        std::cerr << "Error opening file: " << cardsFile << std::endl;
+        return;
+    }
 
-        std::string line;
+    std::string line;
 
-        while(std::getline(file, line)) {
-            std::istringstream ss(line);
-            std::string value, suit;
+    while (std::getline(file, line)) {
+        std::istringstream ss(line);
+        std::string value, suit;
 
-            if (std::getline(ss, value, '>') && std::getline(ss, suit)) {
-                _cards.push_back(Card(value, suit));
+        if (std::getline(ss, value, ',') && std::getline(ss, suit)) {
+            _cards.push_back(Card(value, suit));
+
         }
     }
-        file.close();
-
-        
+    file.close();
 }
+
+        void WarGame::ShowCards() {
+            for (const auto& card : _cards) {
+                std::cout << "Card: " << card.Face() << " of " << card.Suit() << std::endl;
+            }
+        }
