@@ -54,6 +54,8 @@ int main()
         }
         case 3:
         {
+            std::cout << "Starting Card Wars...\n";
+            war.StartGame();
             break;
         }
         default:

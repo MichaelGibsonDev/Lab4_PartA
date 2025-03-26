@@ -5,17 +5,13 @@
 
 class WarGame
 {
-
 public:
-	WarGame(std::string cardsFile);
-	static void ShowCards();
-
+    WarGame(const std::string& cardsFile);
+    void ShowCards() const;
+    void StartGame();
 
 private:
-	static std::vector<Card> _cards;
-
-	static void shuffle();
-
-	static void LoadCards(const std::string& cardsFile);
+    static std::vector<Card> _cards;
+    static void shuffle();
+    static void LoadCards(const std::string& cardsFile);
 };
-

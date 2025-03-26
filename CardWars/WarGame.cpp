@@ -4,13 +4,11 @@
 #include <fstream>
 #include <sstream>
 #include <iomanip>
-#include "Input.h"
 #include "Card.h"
-
 
 std::vector<Card> WarGame::_cards;
 
-WarGame::WarGame(std::string cardsFile)
+WarGame::WarGame(const std::string& cardsFile)
 {
     LoadCards(cardsFile);
     ShowCards();
@@ -32,7 +30,8 @@ void WarGame::shuffle()
     }
 }
 
-void WarGame::LoadCards(const std::string& cardsFile) {
+void WarGame::LoadCards(const std::string& cardsFile)
+{
     std::ifstream file(cardsFile);
 
     if (!file) {
@@ -41,22 +40,26 @@ void WarGame::LoadCards(const std::string& cardsFile) {
     }
 
     std::string line;
-
     while (std::getline(file, line)) {
         std::istringstream ss(line);
         std::string value, suit;
 
         if (std::getline(ss, value, '>') && std::getline(ss, suit)) {
             _cards.push_back(Card(value, suit));
-
         }
     }
     file.close();
 }
-        void WarGame::ShowCards() {
-            for (const auto& card : _cards) {
-                card.Print();
-                std::cout << std::endl;
-            }
-        }
 
+void WarGame::ShowCards() const
+{
+    for (const auto& card : _cards) {
+        card.Print();
+        std::cout << std::endl;
+    }
+}
+
+void WarGame::StartGame()
+{
+    std::cout << "Game started!" << std::endl;
+}
