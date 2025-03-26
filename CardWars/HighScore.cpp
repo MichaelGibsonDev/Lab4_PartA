@@ -49,13 +49,11 @@ std::vector<HighScore> HighScore::LoadHighScores(const std::string& filePath) {
 }
 
 void HighScore::ShowHighScores(const std::vector<HighScore>& highScores) {
-    std::cout << "====High Scores====" << std::endl;
+    std::cout << "High Scores" << std::endl;
     std::cout << "---------------------------" << std::endl;
 
 
-    int rank = 1;
     for (const auto& score : highScores) {
-        std::cout << rank++ << ". " << score.getName() << " - ";
-        std::cout << "[" << score.getScore() << "]" << std::endl;
+        std::cout << score.getName() << " \033[1;32m" << score.getScore() << "\033[0m" << std::endl;
     }
 }

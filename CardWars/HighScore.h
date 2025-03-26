@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <vector>
+#include <fstream>
 
 class HighScore {
 private:
@@ -9,12 +10,15 @@ private:
 
 public:
     HighScore(const std::string& csvData, char delimiter);
+
     std::string getName() const;
     void setName(const std::string& newName);
+
     int getScore() const;
     void setScore(int newScore);
 
     static std::vector<HighScore> LoadHighScores(const std::string& filePath);
-    static void ShowHighScores(const std::vector<HighScore>& highScores);
     void Deserialize(const std::string& csvData, char delimiter);
+
+    static void ShowHighScores(const std::vector<HighScore>& highScores);
 };
