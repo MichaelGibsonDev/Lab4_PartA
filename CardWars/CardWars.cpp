@@ -17,10 +17,7 @@ int main()
     std::string highScoreFile = "HighScores.csv";
     std::string cardsFile = "cards.csv";
 
-    std::vector<HighScore> highScores;
-    highScores.push_back(HighScore("Eddie", 100));
-    highScores.push_back(HighScore("Mike", 200));
-    highScores.push_back(HighScore("Roman", 150));
+    std::vector<HighScore> highScores = HighScore::LoadHighScores(highScoreFile);
 
     WarGame war(cardsFile);
 
@@ -31,7 +28,6 @@ int main()
         menuSelection = Input::GetMenuSelection(menuOptions);
         Console::Clear();
 
-
         //----------------------------------------------------------------
         //                                                              //
         //    Call your methods in the appropriate case statement       //
@@ -39,25 +35,21 @@ int main()
         switch (menuSelection)
         {
         case 1:
-        {
-            war.ShowCards();
+            WarGame::ShowCards();
             break;
-        }
+
         case 2:
-        {
-            std::cout << "High Scores:" << std::endl;
-            for (const auto& score : highScores)
+            HighScore::ShowHighScores(highScores);
+            break;
+
+        case 3:
+            std::cout << "Starting Card Wars...\n";
             {
-                std::cout << score.getName() << " - " << score.getScore() << std::endl;
+                std::string playerName = Input::GetString("Enter your name: ");
+                war.PlayGame(playerName, highScores, highScoreFile);
             }
             break;
-        }
-        case 3:
-        {
-            std::cout << "Starting Card Wars...\n";
-            war.StartGame();
-            break;
-        }
+
         default:
             break;
         }
@@ -66,4 +58,5 @@ int main()
 
     } while (menuSelection != menuOptions.size());
 
+    return 0;
 }

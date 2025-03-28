@@ -1,16 +1,15 @@
 #include "HighScore.h"
-#include <sstream>
 #include <fstream>
+#include <sstream>
 #include <iostream>
+#include <algorithm>
+
+HighScore::HighScore(const std::string& playerName, int playerScore)
+    : name(playerName), score(playerScore) {
+}
 
 HighScore::HighScore(const std::string& csvData, char delimiter) {
     Deserialize(csvData, delimiter);
-}
-
-void HighScore::Deserialize(const std::string& csvData, char delimiter) {
-    std::istringstream stream(csvData);
-    std::getline(stream, name, delimiter);
-    stream >> score;
 }
 
 std::string HighScore::getName() const {
@@ -29,31 +28,43 @@ void HighScore::setScore(int newScore) {
     score = newScore;
 }
 
+void HighScore::Deserialize(const std::string& csvData, char delimiter) {
+    std::stringstream sPart(csvData);
+    std::getline(sPart, name, delimiter);
+    sPart >> score;
+}
+
 std::vector<HighScore> HighScore::LoadHighScores(const std::string& filePath) {
     std::vector<HighScore> highScores;
-    std::ifstream file(filePath);
-
-    if (!file.is_open()) {
-        std::cerr << "Error opening file: " << filePath << std::endl;
+    std::ifstream infile(filePath);
+    if (!infile) {
+        std::cout << "Unable to open file. " << filePath << std::endl;
         return highScores;
     }
-
     std::string line;
-    while (std::getline(file, line)) {
-        HighScore score(line, ',');
-        highScores.push_back(score);
+    while (std::getline(infile, line)) {
+        HighScore hs(line, '>');
+        highScores.push_back(hs);
     }
-
-    file.close();
+    infile.close();
     return highScores;
 }
 
+void HighScore::SaveHighScores(const std::string& filePath, const std::vector<HighScore>& highScores) {
+    std::ofstream outFile(filePath);
+    if (!outFile) {
+        std::cout << "Unable to open file. " << filePath << " for writing." << std::endl;
+        return;
+    }
+    for (size_t i = 0; i < highScores.size(); i++) {
+        outFile << highScores[i].getName() << ">" << highScores[i].getScore() << "\n";
+    }
+    outFile.close();
+}
+
 void HighScore::ShowHighScores(const std::vector<HighScore>& highScores) {
-    std::cout << "High Scores" << std::endl;
-    std::cout << "---------------------------" << std::endl;
-
-
-    for (const auto& score : highScores) {
-        std::cout << score.getName() << " \033[1;32m" << score.getScore() << "\033[0m" << std::endl;
+    std::cout << "High Scores: \n";
+    for (size_t i = 0; i < highScores.size(); i++) {
+        std::cout << highScores[i].getName() << " - " << highScores[i].getScore() << "\n";
     }
 }
